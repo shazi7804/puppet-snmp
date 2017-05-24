@@ -1,0 +1,40 @@
+# snmpd.conf: Managed by puppet.
+
+#### AGENT BEHAVIOUR ####
+agentaddress <%= scope.lookupvar('snmp::agent_address') %>
+
+#### ACCESS CONTROL ####
+
+# Traditional Access Control
+rocommunity <%= scope.lookupvar('snmp::ro_password') %> <%= scope.lookupvar('snmp::ro_network') %>
+rocommunity6 <%= scope.lookupvar('snmp::ro6_password') %> <%= scope.lookupvar('snmp::ro6_network') %>
+
+# VACM Configuration
+#       sec.name       source        community
+<% scope.lookupvar('snmp::com2sec').each do |c2s| -%>
+com2sec <%= c2s %>
+<% end -%>
+<% scope.lookupvar('snmp::com2sec6').each do |c2s6| -%>
+com2sec6 <%= c2s6 %>
+<% end -%>
+
+# groupName  securityModel   securityName
+<% scope.lookupvar('snmp::groups').each do |group| -%>
+group   <%= group %>
+<% end -%>
+
+# name  incl/excl  subtree  mask(optional)
+<% scope.lookupvar('snmp::views').each do |view| -%>
+view    <%= view %>
+<% end -%>
+
+# group  context sec.model sec.level prefix read  write notif
+<% scope.lookupvar('snmp::accesses').each do |access| -%>
+access  <%= access %>
+<% end -%>
+
+#### SYSTEM INFORMATION ####
+# System Group
+sysLocation <%= scope.lookupvar('snmp::syslocation') %>
+sysContact <%= scope.lookupvar('snmp::syscontact') %>
+sysServices <%= scope.lookupvar('snmp::sysservices') %>

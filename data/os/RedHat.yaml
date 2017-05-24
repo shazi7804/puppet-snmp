@@ -1,0 +1,2 @@
+snmp::package_name: 'net-snmp'
+snmp::service_name: 'snmpd'
